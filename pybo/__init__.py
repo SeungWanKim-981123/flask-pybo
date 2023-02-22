@@ -12,12 +12,12 @@ naming_convention={
 }
 db=SQLAlchemy(metadata=MetaData(naming_convention=naming_convention))
 migrate=Migrate()
-import config
+
 
 
 def create_app():
 	app=Flask(__name__)
-	app.config.from_object(config)
+	app.config.from_envvar('APP_CONFIG_FILE')
 
 	#ORM
 	db.init_app(app)
