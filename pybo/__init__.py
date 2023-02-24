@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask,render_template
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
@@ -14,6 +14,8 @@ db=SQLAlchemy(metadata=MetaData(naming_convention=naming_convention))
 migrate=Migrate()
 
 
+def page_not_found(e):
+	return render_template('404.html'),404
 
 def create_app():
 	app=Flask(__name__)
@@ -41,4 +43,7 @@ def create_app():
 
 	#Markdown
 	Markdown(app,extensions=['nl2br','fenced_code'])#마크 다운 문법을 사용하는데 줄바꿈을 편하게 할 수 있는(br) ml2br과 코드를 표시할 수 있는 fenced_code를 익스텐션으로 추가함.
+
+	#오류 페이지
+	app.register_error_handler(404,page_not_found)
 	return app
